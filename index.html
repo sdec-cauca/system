@@ -1,0 +1,85 @@
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard de Proyectos Gubernamentales</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              primary: { "50": "#eff6ff", "100": "#dbeafe", "200": "#bfdbfe", "300": "#93c5fd", "400": "#60a5fa", "500": "#3b82f6", "600": "#2563eb", "700": "#1d4ed8", "800": "#1e40af", "900": "#1e3a8a", "950": "#172554" },
+            }
+          }
+        }
+      }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+      body { font-family: 'Inter', sans-serif; }
+      /* Custom Form Styles */
+      .input-std {
+          width: 100%;
+          padding: 0.625rem;
+          border-width: 1px;
+          border-color: #d1d5db;
+          border-radius: 0.5rem;
+          background-color: #f9fafb;
+          color: #111827;
+          font-size: 0.875rem;
+          line-height: 1.25rem;
+      }
+      .dark .input-std {
+          background-color: #374151;
+          border-color: #4b5563;
+          color: white;
+      }
+      .input-std:focus {
+          outline: none;
+          ring: 2px;
+          ring-color: #3b82f6;
+          border-color: #3b82f6;
+      }
+      .label-std {
+          display: block;
+          margin-bottom: 0.375rem;
+          font-size: 0.75rem; /* text-xs */
+          font-weight: 500;
+          color: #374151;
+          text-transform: uppercase;
+      }
+      .dark .label-std {
+          color: #d1d5db;
+      }
+      /* Sidebar collapse logic */
+      .sidebar-collapsed {
+           margin-left: 0; /* handled by flex layout in React, but just in case */
+      }
+    </style>
+
+
+  <script type="importmap">
+{
+  "imports": {
+    "recharts": "https://aistudiocdn.com/recharts@^3.4.1",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "jspdf": "https://cdn.jsdelivr.net/npm/jspdf@2.5.1/+esm",
+    "jspdf-autotable": "https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/+esm"
+  }
+}
+</script>
+  <script type="module" crossorigin src="/assets/index-DFWDZiHU.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-Bp-2gZnQ.css">
+</head>
+  <body class="bg-gray-100 dark:bg-gray-900">
+    <div id="root"></div>
+</body>
+</html>
