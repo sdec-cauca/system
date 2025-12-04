@@ -1,85 +1,273 @@
-
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard de Proyectos Gubernamentales</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        darkMode: 'class',
-        theme: {
-          extend: {
-            colors: {
-              primary: { "50": "#eff6ff", "100": "#dbeafe", "200": "#bfdbfe", "300": "#93c5fd", "400": "#60a5fa", "500": "#3b82f6", "600": "#2563eb", "700": "#1d4ed8", "800": "#1e40af", "900": "#1e3a8a", "950": "#172554" },
-            }
-          }
-        }
-      }
-    </script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SDEC | Mantenimiento Programado</title>
+    
     <style>
-      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-      body { font-family: 'Inter', sans-serif; }
-      /* Custom Form Styles */
-      .input-std {
-          width: 100%;
-          padding: 0.625rem;
-          border-width: 1px;
-          border-color: #d1d5db;
-          border-radius: 0.5rem;
-          background-color: #f9fafb;
-          color: #111827;
-          font-size: 0.875rem;
-          line-height: 1.25rem;
-      }
-      .dark .input-std {
-          background-color: #374151;
-          border-color: #4b5563;
-          color: white;
-      }
-      .input-std:focus {
-          outline: none;
-          ring: 2px;
-          ring-color: #3b82f6;
-          border-color: #3b82f6;
-      }
-      .label-std {
-          display: block;
-          margin-bottom: 0.375rem;
-          font-size: 0.75rem; /* text-xs */
-          font-weight: 500;
-          color: #374151;
-          text-transform: uppercase;
-      }
-      .dark .label-std {
-          color: #d1d5db;
-      }
-      /* Sidebar collapse logic */
-      .sidebar-collapsed {
-           margin-left: 0; /* handled by flex layout in React, but just in case */
-      }
+        /* 
+         ========================================
+         1. VARIABLES CSS (Paleta de Colores)
+         ========================================
+        */
+        :root {
+            --bg-color: #0f172a;       /* Fondo oscuro elegante */
+            --text-main: #f8fafc;      /* Texto blanco */
+            --text-muted: #94a3b8;     /* Texto gris secundario */
+            --accent: #38bdf8;         /* Azul cian para destacar */
+            --glass-bg: rgba(255, 255, 255, 0.05); /* Cristal */
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        /* 
+         ========================================
+         2. RESET Y ESTRUCTURA
+         ========================================
+        */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            height: 100vh;
+            width: 100%;
+            display: grid;         /* Centrado perfecto */
+            place-items: center;
+            overflow: hidden;      /* Sin barras de scroll */
+            position: relative;
+        }
+
+        /* 
+         ========================================
+         3. FONDO AMBIENTAL (Orbes de luz)
+         ========================================
+        */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(90px);    /* Desenfoque fuerte para suavidad */
+            z-index: -1;
+            opacity: 0.5;
+            animation: float 10s infinite ease-in-out alternate;
+        }
+
+        .orb-1 {
+            width: 400px; height: 400px;
+            background: #4f46e5;   /* Indigo */
+            top: -10%; left: -10%;
+        }
+
+        .orb-2 {
+            width: 350px; height: 350px;
+            background: #0ea5e9;   /* Cian */
+            bottom: -10%; right: -10%;
+            animation-delay: -5s;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(40px, 60px); }
+        }
+
+        /* 
+         ========================================
+         4. TARJETA DE CRISTAL (Glassmorphism)
+         ========================================
+        */
+        .container {
+            text-align: center;
+            padding: 3.5rem 2rem;
+            max-width: 650px;
+            width: 90%;
+            
+            /* El efecto de vidrio esmerilado */
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            
+            /* Animación inicial */
+            animation: appear 1s ease-out forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        @keyframes appear {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem); /* Texto responsive */
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(to right, #fff, #cbd5e1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 2.5rem;
+        }
+
+        /* 
+         ========================================
+         5. CONTADOR REGRESIVO
+         ========================================
+        */
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .time-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 1rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.05);
+            min-width: 80px;
+        }
+
+        .number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            line-height: 1;
+        }
+
+        .label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
+
+        /* 
+         ========================================
+         6. BOTÓN SDEC (Estilizado)
+         ========================================
+        */
+        .btn-sdec {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 1rem 2.5rem;
+            background: linear-gradient(135deg, var(--accent), #2563eb);
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px -10px rgba(56, 189, 248, 0.5);
+            border: 1px solid rgba(255,255,255,0.2);
+            font-size: 1rem;
+        }
+
+        .btn-sdec:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 30px -10px rgba(56, 189, 248, 0.6);
+            filter: brightness(1.1);
+        }
+
+        /* Ajustes para móviles muy pequeños */
+        @media (max-width: 480px) {
+            .countdown { gap: 0.5rem; }
+            .time-box { min-width: 60px; padding: 0.5rem; }
+            .number { font-size: 1.5rem; }
+            .btn-sdec { width: 100%; justify-content: center; }
+        }
     </style>
-
-
-  <script type="importmap">
-{
-  "imports": {
-    "recharts": "https://aistudiocdn.com/recharts@^3.4.1",
-    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
-    "react/": "https://aistudiocdn.com/react@^19.2.0/",
-    "react": "https://aistudiocdn.com/react@^19.2.0",
-    "jspdf": "https://cdn.jsdelivr.net/npm/jspdf@2.5.1/+esm",
-    "jspdf-autotable": "https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/+esm"
-  }
-}
-</script>
-  <script type="module" crossorigin src="/system/assets/index-BiNCGdnq.js"></script>
-  <link rel="stylesheet" crossorigin href="/system/assets/index-Bp-2gZnQ.css">
 </head>
-  <body class="bg-gray-100 dark:bg-gray-900">
-    <div id="root"></div>
+<body>
+
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <main class="container">
+        <h1>Próximamente</h1>
+        <p>Estamos trabajando en la nueva plataforma tratando de poner de acuerdo a toda la SDEC <br>El lanzamiento preliminar está programado para el 12 de Diciembre.</p>
+
+        <!-- El Contador -->
+        <div class="countdown">
+            <div class="time-box">
+                <span class="number" id="days">00</span>
+                <span class="label">Días</span>
+            </div>
+            <div class="time-box">
+                <span class="number" id="hours">00</span>
+                <span class="label">Horas</span>
+            </div>
+            <div class="time-box">
+                <span class="number" id="minutes">00</span>
+                <span class="label">Min</span>
+            </div>
+            <div class="time-box">
+                <span class="number" id="seconds">00</span>
+                <span class="label">Seg</span>
+            </div>
+        </div>
+
+        <!-- Botón con URL SDEC -->
+        <a href="https://sdec-cauca.github.io/bd/" class="btn-sdec" target="_blank">
+            CONSULTAR POBLACIÓN SDEC
+        </a>
+    </main>
+
+    <script>
+        /*
+         ========================================
+         LÓGICA DEL CONTADOR (REAL Y FIJO)
+         ========================================
+        */
+
+        // 1. FECHA OBJETIVO FIJA
+        // "December 12, 2025 00:00:00" -> Medianoche al iniciar el día 12.
+        // Nota: Asegúrate de que el año (2025) sea el correcto.
+        const fechaLimite = new Date("December 12, 2025 00:00:00").getTime();
+
+        const actualizarContador = () => {
+            const ahora = new Date().getTime();
+            const distancia = fechaLimite - ahora;
+
+            // Si la fecha ya pasó
+            if (distancia < 0) {
+                clearInterval(intervalo);
+                document.querySelector(".countdown").innerHTML = "<h2 style='color: var(--accent)'>¡El sistema ya está disponible!</h2>";
+                return;
+            }
+
+            // Cálculos de tiempo
+            const dias = Math.floor(distancia / (1000 * 60 * 60 * 24));
+            const horas = Math.floor((distancia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutos = Math.floor((distancia % (1000 * 60 * 60)) / (1000 * 60));
+            const segundos = Math.floor((distancia % (1000 * 60)) / 1000);
+
+            // Inyectar en el HTML con formato de dos dígitos (ej. 05)
+            document.getElementById("days").innerText = dias < 10 ? "0" + dias : dias;
+            document.getElementById("hours").innerText = horas < 10 ? "0" + horas : horas;
+            document.getElementById("minutes").innerText = minutos < 10 ? "0" + minutos : minutos;
+            document.getElementById("seconds").innerText = segundos < 10 ? "0" + segundos : segundos;
+        };
+
+        // Actualizar cada segundo
+        const intervalo = setInterval(actualizarContador, 1000);
+        
+        // Ejecutar inmediatamente al cargar
+        actualizarContador();
+    </script>
+
 </body>
 </html>
